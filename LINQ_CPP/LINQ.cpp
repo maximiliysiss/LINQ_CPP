@@ -11,6 +11,12 @@ LINQ <T, Cont>::LINQ(InnerIterator begin, InnerIterator end)
 	container = Cont<T>(begin, end);
 }
 
+template<typename T, template<typename, typename = std::allocator<T>> class Cont>
+LINQ <T, Cont>::LINQ(std::initializer_list<T> list)
+{
+	container = Cont<T>(list);
+}
+
 template<typename T, template<typename, typename> class Cont>
 LINQ<T, Cont>::~LINQ()
 {

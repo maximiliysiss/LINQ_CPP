@@ -12,5 +12,5 @@ int main()
 	int x = 15;
 	linq.AddRange({ 1,2,3, x });
 	auto resFind = linq.FirstOrDefault([](const int & elem) { return elem > 10; });
-	auto res = linq.Select<std::string>([](const int & n) { return std::to_string(n); });
+	auto res = linq.Select<std::string>([](int n) { return std::to_string(n); });
 }

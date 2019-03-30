@@ -33,6 +33,7 @@ public:
 		Example: LINQ<int>(other.Begin(), other.End())
 	*/
 	LINQ(InnerIterator begin, InnerIterator end);
+	LINQ(std::initializer_list<T>);
 	~LINQ();
 	// Add new Element to back
 	void Add(T element);
