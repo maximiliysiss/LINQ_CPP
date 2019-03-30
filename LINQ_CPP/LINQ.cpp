@@ -16,10 +16,27 @@ LINQ<T, Cont>::~LINQ()
 {
 }
 
+template<typename T, template<typename, typename> class Cont>
+template<typename R>
+LINQ<R> LINQ<T, Cont>::Select(R(*select)(T element))
+{
+	LINQ<R> result;
+	std::for_each(container.begin(), container.end(), [&](const T& elem) { result.Add(select(elem)); });
+	return result;
+}
 
 template<typename T, template<typename, typename> class Cont>
 template<typename R>
-inline LINQ<R> LINQ<T, Cont>::Select(R(*select)(const T &element))
+LINQ<R> LINQ<T, Cont>::Select(R(*select)(const T& element))
+{
+	LINQ<R> result;
+	std::for_each(container.begin(), container.end(), [&](const T& elem) { result.Add(select(elem)); });
+	return result;
+}
+
+template<typename T, template<typename, typename> class Cont>
+template<typename R>
+LINQ<R> LINQ<T, Cont>::Select(R(*select)(T& element))
 {
 	LINQ<R> result;
 	std::for_each(container.begin(), container.end(), [&](const T& elem) { result.Add(select(elem)); });
@@ -79,7 +96,7 @@ T LINQ<T, Cont>::First()
 {
 	if (container.size() == 0)
 		throw std::exception("Size is low");
-	return container.at(0);
+	return *container.begin();
 }
 
 template<typename T, template<typename, typename> class Cont>
@@ -87,7 +104,7 @@ T * LINQ<T, Cont>::FirstOrDefault()
 {
 	if (container.size() == 0)
 		return nullptr;
-	return &container.at(0);
+	return &(*container.begin());
 }
 
 template<typename T, template<typename, typename> class Cont>
@@ -124,7 +141,12 @@ typename LINQ<T, Cont>::InnerIterator LINQ<T, Cont>::End()
 template<typename T, template<typename, typename> class Cont>
 void LINQ<T, Cont>::RemoveAt(int index)
 {
-	container.erase(container.begin() + index);
+	if (index < 0 || index >= Size())
+		return;
+	auto iter = container.begin();
+	while (index-- > 0)
+		iter++;
+	container.erase(iter);
 }
 
 template<typename T, template<typename, typename = std::allocator<T>> class Cont>

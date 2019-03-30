@@ -50,7 +50,11 @@ public:
 	T* FirstOrDefault();
 	T* FirstOrDefault(bool(*filter)(const T& element));
 	template<typename R>
+	LINQ<R> Select(R(*select)(T element));
+	template<typename R>
 	LINQ<R> Select(R(*select)(const T& element));
+	template<typename R>
+	LINQ<R> Select(R(*select)(T& element));
 	// ToList
 	std::list<T> ToList();
 	// To Vector
