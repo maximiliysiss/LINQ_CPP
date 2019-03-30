@@ -9,6 +9,7 @@
 
 /*
 	LINQ CLASS (as C# LINQ)
+	Cont = std::vector, std::list, std::deque
 	It's a pity, but need #include<LINQ.cpp> :(
 */
 template<typename T, template<typename, typename = std::allocator<T>> class Cont = std::vector>
