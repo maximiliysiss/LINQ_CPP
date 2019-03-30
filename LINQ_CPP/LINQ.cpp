@@ -16,6 +16,16 @@ LINQ<T, Cont>::~LINQ()
 {
 }
 
+
+template<typename T, template<typename, typename> class Cont>
+template<typename R>
+inline LINQ<R> LINQ<T, Cont>::Select(R(*select)(const T &element))
+{
+	LINQ<R> result;
+	std::for_each(container.begin(), container.end(), [&](const T& elem) { result.Add(select(elem)); });
+	return result;
+}
+
 template<typename T, template<typename, typename> class Cont>
 void LINQ<T, Cont>::Add(T element)
 {
@@ -78,6 +88,13 @@ T * LINQ<T, Cont>::FirstOrDefault()
 	if (container.size() == 0)
 		return nullptr;
 	return &container.at(0);
+}
+
+template<typename T, template<typename, typename> class Cont>
+T * LINQ<T, Cont>::FirstOrDefault(bool(*filter)(const T &element))
+{
+	auto iter = std::find_if(container.begin(), container.end(), filter);
+	return iter == container.end() ? nullptr : &(*iter);
 }
 
 template<typename T, template<typename, typename> class Cont>

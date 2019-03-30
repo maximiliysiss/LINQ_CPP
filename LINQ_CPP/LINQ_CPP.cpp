@@ -3,6 +3,7 @@
 
 #include "LINQ.cpp"
 #include <iostream>
+#include <string>
 
 int main()
 {
@@ -10,17 +11,6 @@ int main()
 	linq.Add(12);
 	int x = 15;
 	linq.AddRange({ 1,2,3, x });
-	auto res = *linq;
-
-	LINQ<int> linq12(res.begin(), res.end());
-	std::cout << linq.Size() << " " << res.at(4) << std::endl;
-	std::cout << linq.Contains(78);
-
-	auto resWhere = linq.Where([](int elem) { return elem > 10; });
-	LINQ<int> linq1233(resWhere);
-
-	auto listCopy = resWhere.ToList();
-	resWhere.RemoveAll(12);
-
-	linq.RemoveIf([](const int& el) {return el > 10; });
+	auto resFind = linq.FirstOrDefault([](const int & elem) { return elem > 10; });
+	auto res = linq.Select<std::string>([](const int & n) { return std::to_string(n); });
 }
