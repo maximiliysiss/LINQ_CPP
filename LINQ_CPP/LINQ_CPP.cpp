@@ -5,12 +5,18 @@
 #include <iostream>
 #include <string>
 
+
+class Test {
+public:
+	int t;
+	int g;
+};
+
 int main()
 {
-	LINQ<int> linq;
-	linq.Add(12);
-	int x = 15;
-	linq.AddRange({ 1,2,3, x });
-	auto resFind = linq.FirstOrDefault([](const int & elem) { return elem > 10; });
-	auto res = linq.Select<std::string>([](int n) { return std::to_string(n); });
+	LINQ<Test> linq({ Test{12,8}, Test{112,3}, Test{3,4} });
+
+	linq.OrderBy<int>([](Test elem) { return elem.g; })
+		.Select<std::string>([](Test test) {return std::to_string(test.t); })
+		.ForEach([](const std::string & e) {std::cout << e << std::endl; });
 }
