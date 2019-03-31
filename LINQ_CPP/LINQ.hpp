@@ -22,6 +22,7 @@ public:
 	typedef typename Cont<T>::iterator InnerIterator;
 	// Inner Container
 	typedef Cont<T> ReturnContainer;
+	typedef typename Cont<T>::reverse_iterator InnerReverseIterator;
 public:
 	// Get Size
 	size_t Size();
@@ -64,10 +65,18 @@ public:
 	InnerIterator Begin();
 	// End of inner container
 	InnerIterator End();
+	InnerReverseIterator RBegin();
+	InnerReverseIterator REnd();
 	// Remove element by index
 	void RemoveAt(int index);
 	// Remove all elements by equals
 	void RemoveAll(T element);
+	void RemoveRange(std::initializer_list<T>);
+	template<typename R>
+	LINQ OrderBy(R(*select)(T elem));
+	template<typename R>
+	LINQ OrderByDesc(R(*select)(T elem));
+	T & operator[](int index);
 	// Remove elements by filter function
 	void RemoveIf(bool(*filter)(const T & element));
 };

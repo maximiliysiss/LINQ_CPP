@@ -50,6 +50,24 @@ LINQ<R> LINQ<T, Cont>::Select(R(*select)(T& element))
 }
 
 template<typename T, template<typename, typename> class Cont>
+template<typename R>
+LINQ<T, Cont> LINQ<T, Cont>::OrderBy(R(*select)(T elem))
+{
+	LINQ<T, Cont> linq(this->Begin(), this->End());
+	std::sort(linq.Begin(), linq.End(), [&](T& e1, T&e2) { return select(e1) < select(e2); });
+	return linq;
+}
+
+template<typename T, template<typename, typename> class Cont>
+template<typename R>
+LINQ<T, Cont> LINQ<T, Cont>::OrderByDesc(R(*select)(T elem))
+{
+	LINQ<T, Cont> linq(this->Begin(), this->End());
+	std::sort(linq.Begin(), linq.End(), [&](T& e1, T&e2) { return select(e1) > select(e2); });
+	return linq;
+}
+
+template<typename T, template<typename, typename> class Cont>
 void LINQ<T, Cont>::Add(T element)
 {
 	container.insert(container.end(), { element });
@@ -145,6 +163,18 @@ typename LINQ<T, Cont>::InnerIterator LINQ<T, Cont>::End()
 }
 
 template<typename T, template<typename, typename> class Cont>
+typename LINQ<T, Cont>::InnerReverseIterator LINQ<T, Cont>::RBegin()
+{
+	return container.rbegin();
+}
+
+template<typename T, template<typename, typename> class Cont>
+typename LINQ<T, Cont>::InnerReverseIterator LINQ<T, Cont>::REnd()
+{
+	return container.rend();
+}
+
+template<typename T, template<typename, typename> class Cont>
 void LINQ<T, Cont>::RemoveAt(int index)
 {
 	if (index < 0 || index >= Size())
@@ -160,6 +190,24 @@ void LINQ<T, Cont>::RemoveAll(T element)
 {
 	auto iter = std::remove(container.begin(), container.end(), element);
 	container = Cont<T>(container.begin(), iter);
+}
+
+template<typename T, template<typename, typename = std::allocator<T>> class Cont>
+void LINQ<T, Cont>::RemoveRange(std::initializer_list<T> list)
+{
+	for (T tmp : list)
+		this->RemoveAll(tmp);
+}
+
+template<typename T, template<typename, typename> class Cont>
+T & LINQ<T, Cont>::operator[](int index)
+{
+	if (index < 0 || index >= Size())
+		return;
+	auto iter = container.begin();
+	while (index-- > 0)
+		iter++;
+	return *iter;
 }
 
 template<typename T, template<typename, typename = std::allocator<T>> class Cont>
