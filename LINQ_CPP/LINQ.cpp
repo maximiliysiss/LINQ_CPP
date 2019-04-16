@@ -49,6 +49,24 @@ LINQ<R> LINQ<T, Cont>::Select(R(*select)(T& element))
 	return result;
 }
 
+template<typename T, template <typename, typename> class Cont>
+template<typename R>
+R LINQ<T, Cont>::Max(R(*selector)(T elem))
+{
+	auto select = Select(selector);
+	auto res = std::max_element(select.Begin(), select.End());
+	return *res;
+}
+
+template<typename T, template <typename, typename> class Cont>
+template<typename R>
+R LINQ<T, Cont>::Min(R(*selector)(T elem))
+{
+	auto select = Select(selector);
+	auto res = std::min_element(select.Begin(), select.End());
+	return *res;
+}
+
 template<typename T, template<typename, typename> class Cont>
 template<typename R>
 LINQ<T, Cont> LINQ<T, Cont>::OrderBy(R(*select)(T elem))
@@ -183,6 +201,20 @@ void LINQ<T, Cont>::RemoveAt(int index)
 	while (index-- > 0)
 		iter++;
 	container.erase(iter);
+}
+
+template<typename T, template<typename, typename = std::allocator<T>> class Cont>
+T LINQ<T, Cont>::Max()
+{
+	auto res = std::max_element(container.begin(), container.end());
+	return *res;
+}
+
+template<typename T, template<typename, typename = std::allocator<T>> class Cont>
+T LINQ<T, Cont>::Min()
+{
+	auto res = std::min_element(container.begin(), container.end());
+	return *res;
 }
 
 template<typename T, template<typename, typename = std::allocator<T>> class Cont>

@@ -69,6 +69,12 @@ public:
 	InnerReverseIterator REnd();
 	// Remove element by index
 	void RemoveAt(int index);
+	template<typename R>
+	R Max(R(*selector)(T elem));
+	T Max();
+	T Min();
+	template<typename R>
+	R Min(R(*selector)(T elem));
 	// Remove all elements by equals
 	void RemoveAll(T element);
 	void RemoveRange(std::initializer_list<T>);

@@ -16,7 +16,5 @@ int main()
 {
 	LINQ<Test> linq({ Test{12,8}, Test{112,3}, Test{3,4} });
 
-	linq.OrderBy<int>([](Test elem) { return elem.g; })
-		.Select<std::string>([](Test test) {return std::to_string(test.t); })
-		.ForEach([](const std::string & e) {std::cout << e << std::endl; });
+	int res = linq.Max<int>([](Test one) {return one.g; });
 }
