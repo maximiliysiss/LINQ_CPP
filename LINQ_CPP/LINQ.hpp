@@ -62,11 +62,11 @@ public:
 	// To Vector
 	std::vector<T> ToVector();
 	// Begin of inner container
-	InnerIterator Begin();
+	InnerIterator begin();
 	// End of inner container
-	InnerIterator End();
-	InnerReverseIterator RBegin();
-	InnerReverseIterator REnd();
+	InnerIterator end();
+	InnerReverseIterator rbegin();
+	InnerReverseIterator rend();
 	// Remove element by index
 	void RemoveAt(int index);
 	template<typename R>

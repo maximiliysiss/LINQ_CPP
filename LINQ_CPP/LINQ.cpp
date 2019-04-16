@@ -54,7 +54,7 @@ template<typename R>
 R LINQ<T, Cont>::Max(R(*selector)(T elem))
 {
 	auto select = Select(selector);
-	auto res = std::max_element(select.Begin(), select.End());
+	auto res = std::max_element(select.begin(), select.end());
 	return *res;
 }
 
@@ -63,7 +63,7 @@ template<typename R>
 R LINQ<T, Cont>::Min(R(*selector)(T elem))
 {
 	auto select = Select(selector);
-	auto res = std::min_element(select.Begin(), select.End());
+	auto res = std::min_element(select.begin(), select.end());
 	return *res;
 }
 
@@ -71,8 +71,8 @@ template<typename T, template<typename, typename> class Cont>
 template<typename R>
 LINQ<T, Cont> LINQ<T, Cont>::OrderBy(R(*select)(T elem))
 {
-	LINQ<T, Cont> linq(this->Begin(), this->End());
-	std::sort(linq.Begin(), linq.End(), [&](T& e1, T&e2) { return select(e1) < select(e2); });
+	LINQ<T, Cont> linq(this->begin(), this->end());
+	std::sort(linq.begin(), linq.end(), [&](T& e1, T&e2) { return select(e1) < select(e2); });
 	return linq;
 }
 
@@ -80,8 +80,8 @@ template<typename T, template<typename, typename> class Cont>
 template<typename R>
 LINQ<T, Cont> LINQ<T, Cont>::OrderByDesc(R(*select)(T elem))
 {
-	LINQ<T, Cont> linq(this->Begin(), this->End());
-	std::sort(linq.Begin(), linq.End(), [&](T& e1, T&e2) { return select(e1) > select(e2); });
+	LINQ<T, Cont> linq(this->begin(), this->end());
+	std::sort(linq.begin(), linq.end(), [&](T& e1, T&e2) { return select(e1) > select(e2); });
 	return linq;
 }
 
@@ -169,25 +169,25 @@ std::vector<T> LINQ<T, Cont>::ToVector()
 }
 
 template<typename T, template<typename, typename> class Cont>
-typename LINQ<T, Cont>::InnerIterator LINQ<T, Cont>::Begin()
+typename LINQ<T, Cont>::InnerIterator LINQ<T, Cont>::begin()
 {
 	return container.begin();
 }
 
 template<typename T, template<typename, typename> class Cont>
-typename LINQ<T, Cont>::InnerIterator LINQ<T, Cont>::End()
+typename LINQ<T, Cont>::InnerIterator LINQ<T, Cont>::end()
 {
 	return container.end();
 }
 
 template<typename T, template<typename, typename> class Cont>
-typename LINQ<T, Cont>::InnerReverseIterator LINQ<T, Cont>::RBegin()
+typename LINQ<T, Cont>::InnerReverseIterator LINQ<T, Cont>::rbegin()
 {
 	return container.rbegin();
 }
 
 template<typename T, template<typename, typename> class Cont>
-typename LINQ<T, Cont>::InnerReverseIterator LINQ<T, Cont>::REnd()
+typename LINQ<T, Cont>::InnerReverseIterator LINQ<T, Cont>::rend()
 {
 	return container.rend();
 }
